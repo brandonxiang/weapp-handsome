@@ -1,27 +1,29 @@
 //index.js
 //获取应用实例
-var app = getApp()
 Page({
   data: {
     motto: 'Hello World',
-    userInfo: {}
+    userInfo: {},
+    //请点击你认为比较帅的头像
+    description:'请点击你认为比较帅的头像',
+    bluebutterfly:{
+      name:'bluebutterfly',
+      src:'../../asset/mochan.jpg',
+      score:{}
+    },
+    me:{
+      name:'me',
+      src:'../../asset/melonpi.jpg',
+      score:{}
+    }
   },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
+  onClick: function(e) {
+    console.log(e)
   },
   onLoad: function () {
     console.log('onLoad')
     var that = this
-  	//调用应用实例的方法获取全局数据
-    app.getUserInfo(function(userInfo){
-      //更新数据
-      that.setData({
-        userInfo:userInfo
-      })
-      that.update()
-    })
+
+   
   }
 })
