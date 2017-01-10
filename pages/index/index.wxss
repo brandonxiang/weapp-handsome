@@ -27,6 +27,7 @@
   height: 10%;
   font-size: 1em;
   position: relative;
+  text-align: center;
 }
 
 .breakline text {

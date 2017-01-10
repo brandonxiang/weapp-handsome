@@ -8,7 +8,8 @@
     </view>
   </view>
   <view class="breakline">
-    <text>{{description}}</text>
+    <text wx:if="{{voted}}">{{votedResult}}</text>
+    <text wx:else>{{description}}</text>
   </view>
   <view data-select="{{me.name}}" bindtap="onClick" class="me">
     <image class="head-img" src="{{me.src}}" background-size="cover"></image>

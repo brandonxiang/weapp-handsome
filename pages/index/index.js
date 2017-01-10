@@ -7,6 +7,7 @@ Page({
     userInfo: {},
     //请点击你认为比较帅的头像
     description: '请点击你认为比较帅的头像',
+    votedResult: '投票结果',
     bluebutterfly: {
       name: 'bluebutterfly',
       src: '../../asset/mochan.jpg',
@@ -17,7 +18,7 @@ Page({
       src: '../../asset/melonpi.jpg',
       score:101
     },
-    voted:true
+    voted:false
   },
   onClick: function (e) {
     console.log(e)
