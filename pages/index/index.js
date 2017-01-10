@@ -27,7 +27,7 @@ Page({
     if (select === "me") {
       const newScore = this.data.me
       newScore.score = newScore.score + 1
-      this.setData({ vote: true, me: newScore })
+      this.setData({ voted: true, me: newScore })
     } else if (select === "bluebutterfly") {
       const newScore = this.data.bluebutterfly
       newScore.score = newScore.score + 1
@@ -39,7 +39,7 @@ Page({
   onLoad: function () {
     console.log('onLoad')
     var that = this
-
+    
     //TODO：验证用户
     wx.getUserInfo({
       success: function (res) {
