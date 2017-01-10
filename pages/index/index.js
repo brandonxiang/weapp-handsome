@@ -16,36 +16,42 @@ Page({
     me: {
       name: 'me',
       src: '../../asset/melonpi.jpg',
-      score:101
+      score: 101
     },
-    voted:false
+    voted: false
   },
   onClick: function (e) {
-    console.log(e)
-    // app.getUserInfo(function(userinfo,rawData,signature,encryptedData,iv){
-    //   console.log(userinfo)
-    //   console.log(rawData)
-    //   console.log(signature)
-    //   console.log(encryptedData)
-    //   console.log(iv)
-    // })
-    wx.getUserInfo({
-      success: function(res){
-        // success
-        console.log(res)
-      },
-      fail: function() {
-        // fail
-      },
-      complete: function() {
-        // complete
-      }
-    })
+    if (this.data.voted) { return }
+    console.log(e.currentTarget.dataset)
+    const select = e.currentTarget.dataset.select
+    if (select === "me") {
+      const newScore = this.data.me
+      newScore.score = newScore.score + 1
+      this.setData({ vote: true, me: newScore })
+    } else if (select === "bluebutterfly") {
+      const newScore = this.data.bluebutterfly
+      newScore.score = newScore.score + 1
+      this.setData({ voted: true, bluebutterfly: newScore })
+    }
+
+    //TODO：发送至服务器post
   },
   onLoad: function () {
     console.log('onLoad')
     var that = this
 
-
+    //TODO：验证用户
+    wx.getUserInfo({
+      success: function (res) {
+        // success
+        console.log(res)
+      },
+      fail: function () {
+        // fail
+      },
+      complete: function () {
+        // complete
+      }
+    })
   }
 })
