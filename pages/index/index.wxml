@@ -1,12 +1,19 @@
+
 <!--index.wxml-->
 <view class="container">
   <view data-select="{{bluebutterfly.name}}" bindtap="onClick" class="bluebutterfly">
     <image class="head-img" src="{{bluebutterfly.src}}" background-size="cover"></image>
+    <view wx:if="{{voted}}" class="score">
+      <text>{{bluebutterfly.score}}</text>
+    </view>
   </view>
   <view class="breakline">
     <text>{{description}}</text>
   </view>
   <view data-select="{{me.name}}" bindtap="onClick" class="me">
-   <image class="head-img" src="{{me.src}}" background-size="cover"></image>
+    <image class="head-img" src="{{me.src}}" background-size="cover"></image>
+    <view wx:if="{{voted}}" class="score">
+      <text>{{me.score}}</text>
+    </view>
   </view>
 </view>
