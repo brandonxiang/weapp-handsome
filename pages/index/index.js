@@ -1,3 +1,5 @@
+import { getValidation, getVote } from '../../utils/service.js'
+
 //index.js
 //获取应用实例
 var app = getApp()
@@ -11,12 +13,12 @@ Page({
     bluebutterfly: {
       name: 'bluebutterfly',
       src: '../../asset/mochan.jpg',
-      score: 100
+      score: 0
     },
     me: {
       name: 'me',
       src: '../../asset/melonpi.jpg',
-      score: 101
+      score: 0
     },
     voted: false
   },
@@ -39,19 +41,49 @@ Page({
   onLoad: function () {
     console.log('onLoad')
     var that = this
-    
+
     //TODO：验证用户
-    wx.getUserInfo({
-      success: function (res) {
-        // success
+    //写死用户名
+    const username = 'martin'
+    getValidation({
+      method: "POST",
+      data: { "openid": username },
+      success: (res) => {
         console.log(res)
-      },
-      fail: function () {
-        // fail
-      },
-      complete: function () {
-        // complete
+        this.setScore(res)
+        if (res.data.user) {
+          this.setData({ voted: true})
+        }
+
       }
     })
+
+
+    // wx.getUserInfo({
+    //   success: function (res) {
+    //     // success
+    //     console.log(res)
+    //   },
+    //   fail: function () {
+    //     // fail
+    //   },
+    //   complete: function () {
+    //     // complete
+    //   }
+    // })
+  },
+  setScore: function (res) {
+    const score = res.data.score
+    const meScore = this.data.me
+    const bluebutterflyScore = this.data.bluebutterfly
+    for (var i in score) {
+      if (score[i][0] === "me") {
+        meScore.score = score[i][1]
+      } else if (score[i][0] === "bluebutterfly") {
+        bluebutterflyScore.score = score[i][1]
+      }
+    }
+    this.setData({me: meScore, bluebutterfly: bluebutterflyScore})
   }
+
 })

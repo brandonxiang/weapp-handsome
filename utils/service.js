@@ -1,4 +1,4 @@
-const host = 'localhost:5000/'
+const host = 'http://localhost:5000/'
 
 const wxRequest = (params, url) => {
   wx.showToast({
@@ -23,4 +23,13 @@ const wxRequest = (params, url) => {
       params.complete && params.complete(res)
     }
   })
+}
+
+const getValidation = (params) => wxRequest(params, host+"validation")
+
+const getVote = (params) => wxRequest(params, host+"vote")
+
+module.exports = {
+  getValidation,
+  getVote
 }
