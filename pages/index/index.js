@@ -5,8 +5,6 @@ import { getValidation, getVote } from '../../utils/service.js'
 var app = getApp()
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {},
     //请点击你认为比较帅的头像
     description: '请点击你认为比较帅的头像',
     votedResult: '投票结果',
@@ -20,11 +18,11 @@ Page({
       src: '../../asset/melonpi.jpg',
       score: 0
     },
-    voted: false
+    voted: false,
+    username:'martin'
   },
   onClick: function (e) {
     if (this.data.voted) { return }
-    console.log(e.currentTarget.dataset)
     const select = e.currentTarget.dataset.select
     if (select === "me") {
       const newScore = this.data.me
@@ -37,29 +35,18 @@ Page({
     }
 
     //TODO：发送至服务器post
+    getVote({
+      method:"POST",
+      data:{
+      "user":this.data.username,
+      "score":[[this.data.bluebutterfly.score,"bluebutterfly"],[this.data.me.score,"me"]]},
+    })
   },
   onLoad: function () {
-    console.log('onLoad')
     var that = this
 
     //TODO：验证用户
-    //写死用户名
-    const username = 'martin'
-    getValidation({
-      method: "POST",
-      data: { "openid": username },
-      success: (res) => {
-        console.log(res)
-        this.setScore(res)
-        if (res.data.user) {
-          this.setData({ voted: true})
-        }
-
-      }
-    })
-
-
-    // wx.getUserInfo({
+     // wx.getUserInfo({
     //   success: function (res) {
     //     // success
     //     console.log(res)
@@ -71,6 +58,17 @@ Page({
     //     // complete
     //   }
     // })
+    //写死用户名
+    getValidation({
+      method: "POST",
+      data: { "openid": this.data.username },
+      success: (res) => {
+        this.setScore(res)
+        if (res.data.user) {
+          this.setData({ voted: true})
+        }
+      }
+    })
   },
   setScore: function (res) {
     const score = res.data.score
