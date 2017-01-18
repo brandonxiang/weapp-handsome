@@ -1,11 +1,9 @@
-import { getValidation, getVote } from '../../utils/service.js'
+import { getValidation, getVote, errorMessage, getSession } from '../../utils/service.js'
 
-//index.js
-//获取应用实例
+
 var app = getApp()
 Page({
   data: {
-    //请点击你认为比较帅的头像
     description: '请点击你认为比较帅的头像',
     votedResult: '投票结果',
     bluebutterfly: {
@@ -19,7 +17,7 @@ Page({
       score: 0
     },
     voted: false,
-    username:'martin'
+    username: 'martin23'
   },
   onClick: function (e) {
     if (this.data.voted) { return }
@@ -33,41 +31,54 @@ Page({
       newScore.score = newScore.score + 1
       this.setData({ voted: true, bluebutterfly: newScore })
     }
-
-    //TODO：发送至服务器post
     getVote({
-      method:"POST",
-      data:{
-      "user":this.data.username,
-      "score":[[this.data.bluebutterfly.score,"bluebutterfly"],[this.data.me.score,"me"]]},
+      method: "POST",
+      data: {
+        "user": this.data.username,
+        "score": [[this.data.bluebutterfly.score, "bluebutterfly"], [this.data.me.score, "me"]]
+      },
     })
   },
   onLoad: function () {
     var that = this
 
     //TODO：验证用户
-     // wx.getUserInfo({
+    // wx.login({
     //   success: function (res) {
-    //     // success
-    //     console.log(res)
+    //     if (res.code) {
+    //       getSession({
+    //         data: {
+    //           appid: "123456789",
+    //           secret: "123456789",
+    //           js_code: res.code,
+    //           grant_type: "authorization_code"
+    //         },
+    //         success: function (res) {
+    //           console.log(res.openid)
+    //           that.setData({ username: res.openid })
+              
+    //         },
+    //         fail: errorMessage
+    //       })
+    //     } else {
+    //       errorMessage(res)
+    //     }
     //   },
-    //   fail: function () {
-    //     // fail
-    //   },
-    //   complete: function () {
-    //     // complete
-    //   }
+    //   fail: errorMessage
     // })
-    //写死用户名
+    that.validation()
+  },
+  validation: function () {
     getValidation({
       method: "POST",
       data: { "openid": this.data.username },
       success: (res) => {
         this.setScore(res)
         if (res.data.user) {
-          this.setData({ voted: true})
+          this.setData({ voted: true })
         }
-      }
+      },
+      fail: errorMessage
     })
   },
   setScore: function (res) {
@@ -81,7 +92,6 @@ Page({
         bluebutterflyScore.score = score[i][1]
       }
     }
-    this.setData({me: meScore, bluebutterfly: bluebutterflyScore})
-  }
-
+    this.setData({ me: meScore, bluebutterfly: bluebutterflyScore })
+  },
 })
