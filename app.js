@@ -1,3 +1,17 @@
+// import {Realtime} from './libs/realitime.weapp.min.js'
+
+// const realtime = new Realtime({
+//   appId: 'y60fkVyc62IFBawBOizTK3kY-gzGzoHsz',
+//   noBinary: true,
+// })
+
+// import AV from './libs/av-weapp-min.js'
+
+// AV.init({
+//   appId: 'y60fkVyc62IFBawBOizTK3kY-gzGzoHsz', 
+//   appKey: 'LMvhJY4xeuRv0EVP52PWAvyO',
+// })
+
 //app.js
 App({
   onLaunch: function () {

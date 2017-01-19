@@ -17,7 +17,7 @@ Page({
       score: 0
     },
     voted: false,
-    username: 'martin23'
+    username: 'brandon'
   },
   onClick: function (e) {
     if (this.data.voted) { return }
@@ -35,7 +35,7 @@ Page({
       method: "POST",
       data: {
         "user": this.data.username,
-        "score": [[this.data.bluebutterfly.score, "bluebutterfly"], [this.data.me.score, "me"]]
+        "score": select
       },
     })
   },
@@ -43,36 +43,38 @@ Page({
     var that = this
 
     //TODO：验证用户
-    // wx.login({
-    //   success: function (res) {
-    //     if (res.code) {
-    //       getSession({
-    //         data: {
-    //           appid: "123456789",
-    //           secret: "123456789",
-    //           js_code: res.code,
-    //           grant_type: "authorization_code"
-    //         },
-    //         success: function (res) {
-    //           console.log(res.openid)
-    //           that.setData({ username: res.openid })
-              
-    //         },
-    //         fail: errorMessage
-    //       })
-    //     } else {
-    //       errorMessage(res)
-    //     }
-    //   },
-    //   fail: errorMessage
-    // })
-    that.validation()
+    wx.login({
+      success: function (res) {
+        console.log(res)
+        if (res.code) {
+          getSession({
+            data: {
+              appid: "wx204a3387d9fb4892",
+              secret: "6d70ccf1373e45f70a624b9a5098e03e",
+              js_code: res.code,
+              grant_type: "authorization_code"
+            },
+            success: function (res) {
+              console.log(res)
+              that.setData({ username: res.data.openid })
+              that.validation()
+            },
+            fail: errorMessage
+          })
+        } else {
+          errorMessage(res)
+        }
+      },
+      fail: errorMessage
+    })
+    // that.validation()
   },
   validation: function () {
     getValidation({
       method: "POST",
       data: { "openid": this.data.username },
       success: (res) => {
+        console.log(res)
         this.setScore(res)
         if (res.data.user) {
           this.setData({ voted: true })

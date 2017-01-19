@@ -1,4 +1,4 @@
-const host = 'http://brandonhandsome.applinzi.com/'
+import {host, wxValid} from 'key.js'
 
 const wxRequest = (params, url) => {
   wx.showToast({
@@ -25,11 +25,11 @@ const wxRequest = (params, url) => {
   })
 }
 
-const getValidation = (params) => wxRequest(params, host + "validation")
+const getValidation = (params) => wxRequest(params, host + "/validation")
 
-const getVote = (params) => wxRequest(params, host + "vote")
+const getVote = (params) => wxRequest(params, host + "/vote")
 
-const getSession = (params) =>wxRequest(params, "https://api.weixin.qq.com/sns/jscode2session")
+const getSession = (params) =>wxRequest(params, wxValid)
 
 const errorMessage = (err) => {
   wx.showModal({
